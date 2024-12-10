@@ -21,38 +21,36 @@ const LoginSign = () => {
         setUserData({ ...userData, [name]: value });
     }
 
-   
-
-
     ////////// form submission /////////
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
         // if user chooses to signup use signup mutation
 
-        if (formStatus === 'signup'){
+        if (formStatus === 'signup') {
             try {
                 const { data } = await Signup({ variables: { ...userData } });
-
                 /////// token /////////
-             Auth.login(data.signup.token)
-                ////// clear form ////////
-                setUserData({
-                    username: '',
-                    email: '',
-                    password: '',
-                });
+                Auth.login(data.signup.token);
             } catch (err) {
                 console.error(err);
             }
+            ////// clear form ////////
+            setUserData({
+                username: '',
+                email: '',
+                password: '',
+            });
         }
-        // else use login mutation with token
-        try {
-            const { data } = await Login({ variables: { email: userData.email, password: userData.password } });
+        // else if use login mutation with token
+        else if (formStatus === 'login') {
+            try {
+                const { data } = await Login({ variables: { email: userData.email, password: userData.password } });
 
-            Auth.login(data.login.token)
-        } catch (err) {
-            console.error(err);
+                Auth.login(data.login.token);
+            } catch (err) {
+                console.error(err);
+            }
         }
     }
 
@@ -106,7 +104,7 @@ const LoginSign = () => {
                         <Stack spacing={4}>
                             {formStatus === 'signup' && (
                                 <FormControl
-                                isRequired>
+                                    isRequired>
                                     <FormLabel>Username</FormLabel>
                                     <Input
                                         value={userData.username}
