@@ -1,5 +1,5 @@
 import { Box, Heading, Input, Button, Link, Stack, Grid } from '@chakra-ui/react';
-import { FormControl, FormLabel, } from '@chakra-ui/form-control'
+import { FormControl, FormLabel} from '@chakra-ui/form-control'
 
 import { useMutation } from '@apollo/client';
 import { SIGNUP, LOGIN } from '../utils/mutations';
@@ -36,6 +36,7 @@ const LoginSign = () => {
 
                 /////// token /////////
              Auth.login(data.signup.token)
+            
                 ////// clear form ////////
                 setUserData({
                     username: '',
@@ -47,6 +48,7 @@ const LoginSign = () => {
             }
         }
         // else use login mutation with token
+        else {
         try {
             const { data } = await Login({ variables: { email: userData.email, password: userData.password } });
 
@@ -54,6 +56,7 @@ const LoginSign = () => {
         } catch (err) {
             console.error(err);
         }
+    }
     }
 
     //////// switch between sign up & login ///////
@@ -111,7 +114,9 @@ const LoginSign = () => {
                                     <Input
                                         value={userData.username}
                                         onChange={handleInput}
-                                        name="username" />
+                                        name="username" 
+                                        className='text-white'
+                                        />
                                 </FormControl>)}
                             <FormControl
                                 isRequired>
@@ -120,7 +125,9 @@ const LoginSign = () => {
                                     name="email"
                                     type="email"
                                     value={userData.email}
-                                    onChange={handleInput} />
+                                    onChange={handleInput} 
+                                        className='text-white'
+                                    />
                             </FormControl>
                             <FormControl
                                 isRequired>
@@ -129,11 +136,12 @@ const LoginSign = () => {
                                     value={userData.password}
                                     onChange={handleInput}
                                     name="password"
-                                    type="password" />
+                                    type="password"
+                                    className='text-white' />
                             </FormControl>
                             <Button
                                 type="submit"
-                                disabled={!(userData.username && userData.email && userData.password)}
+                                disabled={formStatus === 'signup' ? !(userData.username && userData.email && userData.password): !(userData.email && userData.password)}
                                 mb={4}>
                                 {formStatus == 'signup' ? 'Sign Up' : 'Log in'}
                             </Button>

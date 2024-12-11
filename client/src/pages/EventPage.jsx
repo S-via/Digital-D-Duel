@@ -9,6 +9,7 @@ import CreateEvent from "../components/CreateEvent";
 
 
 
+
 const EventPage = () => {
   const [events, setEvents] = useState([])
   const [selectedEvent, setSelectedEvent] = useState(null)
