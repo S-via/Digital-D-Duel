@@ -5,24 +5,51 @@ import { Box,Card, CardBody, SimpleGrid,
 
 
 import { GET_ALL_EVENTS } from '../utils/queries';
+import  Auth  from '../utils/auth';
 
+const openEventDetails = function (event) {
+    
+}
 
 const FollowedEventsPage = () => {
     const [events, setEvents] = useState([]);
-    const { loading, getAllEvents} = useQuery(GET_ALL_EVENTS);
+    const user = Auth.getProfile();
+    console.log('user',user);
+    const userId = user.data._id;
+    const { loading, data} = useQuery(GET_ALL_EVENTS,{
+        variables: {userId}
+    });
     useEffect(() => {
         async function fetchData() {
-            const { data } = await getAllEvents()
             console.log('events', data);
             
             try{
-                const eventList = data.map((item) => ({
+                const eventList = data?.map((item) => ({
                     _id: item.id,
                     homeTeam: item.homeTeam,
                     awayTeam: item.awayTeam,
                     description: item.description,
-                    comment: item.comments
-                }));
+                })) || [{
+                    _id: '12355dshdsfjd',
+                    homeTeam: 'Packers',
+                    awayTeam: 'Sharks',
+                    description: 'football',
+                },{
+                    _id: '12355dshdsfjd',
+                    homeTeam: 'Packers',
+                    awayTeam: 'Sharks',
+                    description: 'football',
+                },{
+                    _id: '12355dshdsfjd',
+                    homeTeam: 'Packers',
+                    awayTeam: 'Sharks',
+                    description: 'football',
+                },{
+                    _id: '12355dshdsfjd',
+                    homeTeam: 'Packers',
+                    awayTeam: 'Sharks',
+                    description: 'football',
+                }];
                 
                 
                 setEvents(eventList)
@@ -31,34 +58,37 @@ const FollowedEventsPage = () => {
              }
             }
             fetchData()
-        }, [getAllEvents,events])
+        }, [data])
        
+        
         return (
             <>
-            blah 
+                {user.data.username} 
                 <Box
-                // height='2000px'
                 borderWidth="1px"
                 borderRadius="md"
                 maxH="350px"
                 overflowY="auto"
                 boxShadow="lg"
                 mt={6}>
-                    blah blah
+                    
                     <SimpleGrid
                     columns={[1,2,3]}
                     spacing={12}
-                    mt={6}>
+                    mt={6} 
+                    mb={5}
+                    ml={2}
+                    mr={2}>
                         {events.map((item) => (
                             <Card width='100%' maxWidth='320px' key={item.id} mx='auto'>
                                 <CardBody>
-                                    <CardHeader> vs </CardHeader>
+                                    <CardHeader> {item.homeTeam} vs {item.awayTeam} </CardHeader>
                                     <Text>
-                                        blah blah blah
+                                        {item.description}
                                     </Text>
                                 </CardBody>
                                 <CardFooter justifyContent='flex-end'>
-                                    <Button className="text-black">View Event</Button>
+                                    <Button className="text-black" onClick={() => openEventDetails(item.id)}>View Event</Button>
                                 </CardFooter>
                             </Card>
 
