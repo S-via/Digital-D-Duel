@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Flex, Box, HStack, Button, Spacer, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { SearchIcon } from '@chakra-ui/icons';
-
-function Nav (){
+import Auth from '../utils/auth';
+function Nav() {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
@@ -16,27 +16,36 @@ function Nav (){
       navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
     }
   };
-    return (
+  return (
 
-<Box
-as="header"
-position="fixed"
-top={0}
-left={0}
-right={0}
-zIndex={1000}
-boxShadow="md"
+    <Box
+      as="header"
+      position="fixed"
+      top={0}
+      left={0}
+      right={0}
+      zIndex={1000}
+      boxShadow="md"
 
->
-<Flex
-p={3}
+    >
+      <Flex
+        p={3}
 
->
-  <HStack spacing={4}>
-    <Link to="/loginsign"><Button>Signup | Login</Button></Link>
-  </HStack>
-  <Spacer />
-  <InputGroup size="md" width="300px" mr={4}>
+      >
+        {/* use for add friend button */}
+        <HStack spacing={4}>
+          {Auth.loggedIn() ? (
+            <Button onClick={Auth.logout}>Logout</Button>
+          ) : (
+            <Link to="/login"><Button>Login</Button></Link>
+          )}
+        </HStack>
+        <Spacer />
+        <HStack spacing={6}>
+          <Link to="/profile"><Button>My Profile</Button></Link>
+        </HStack>
+        <Spacer />
+        <InputGroup size="md" width="300px" mr={4}>
           <Input
             pr="4.5rem"
             type="text"
@@ -50,13 +59,14 @@ p={3}
             </Button>
           </InputRightElement>
         </InputGroup>
-  <HStack spacing={6}>
-    <Link to="/joinEvents"><Button>Join Event</Button></Link>
-  </HStack>
-</Flex>
-</Box>
+        <HStack spacing={6}>
+          <Link to="/joinEvents"><Button>Join Event</Button></Link>
+        </HStack>
+      </Flex>
+    </Box>
 
-)}
+  )
+}
 
 
 export default Nav;
