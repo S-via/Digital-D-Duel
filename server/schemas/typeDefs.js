@@ -37,6 +37,7 @@ const typeDefs = `
         getEvent(userId: ID!): Event
         getUser(userId: ID!): User
         me: User
+        getUsers(searchTerm: String!): [User]
     }
 
     input EventInput {

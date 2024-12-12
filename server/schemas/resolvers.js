@@ -30,6 +30,12 @@ const resolvers = {
 
             }
             
+        },
+        getUsers: async(parent, {username}, context) =>{
+
+            const Users = await User.find((username))
+
+            return Users
         }
     },
     Mutation: {
