@@ -27,8 +27,19 @@ const resolvers = {
                     .populate('friends');
                 return user;
             }
+
+            
+        },
+        getUsers: async(parent, {username}, context) =>{
+
+            const Users = await User.find((username))
+
+            return Users
+        },
+
             throw new Error('You need to be logged in!');
         },
+
     },
     Mutation: {
         signup: async (parent, { username, email, password }) => {

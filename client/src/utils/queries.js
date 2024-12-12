@@ -53,3 +53,12 @@ query me{
     }
 }
 `
+export const GET_USERS = gql `
+query getUsers($searchTerm: String!){
+        getUsers(searchTerm: $searchTerm){
+            username
+            _id
+    }
+
+        
+    }`
