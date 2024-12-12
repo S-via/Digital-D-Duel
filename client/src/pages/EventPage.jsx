@@ -40,7 +40,7 @@ const EventPage = () => {
     }
     fetchData()
 
-  }, [events])
+  }, [])
 
   return (
     <>
@@ -70,12 +70,12 @@ const EventPage = () => {
       </Box>
       {selectedEvent && (
         <Modal isOpen={isOpen} onClose={onClose}>
-        ModalOverlay
+        <ModalOverlay/>
         <ModalContent>
         <ModalHeader>Match Details</ModalHeader>
         <ModalCloseButton/>
         <ModalBody>
-      <CreateEvent home_team={selectedEvent.home_team} away_team={selectedEvent.away_team}/>
+      <CreateEvent selected_event={selectedEvent}/>
       </ModalBody>
       </ModalContent>
       </Modal>
