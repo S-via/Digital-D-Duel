@@ -28,7 +28,7 @@ p={3}
   </HStack>
   <Spacer />
   <HStack spacing={6}>
-    <Link to="/joinevent"><Button>Join Event</Button></Link>
+    <Link to="/joinEvents"><Button>Join Event</Button></Link>
   </HStack>
 </Flex>
 </Box>
