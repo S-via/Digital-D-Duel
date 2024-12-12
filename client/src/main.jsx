@@ -5,7 +5,7 @@ import {ChakraProvider} from '@chakra-ui/react'
 import './index.css'
 import App from './App.jsx'
 import EventPage from './pages/EventPage.jsx'
-import EventsFollowedPage from './pages/EventsFollowedPage.jsx';
+import FollowedEventsPage from './pages/FollowedEventsPage.jsx';
 
 import LoginSign from './components/LoginSign.jsx'
 
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
 
       },
       { path:'followedEvents',
-        element:<EventsFollowedPage/>
+        element:<FollowedEventsPage/>
 
       }
     ]
