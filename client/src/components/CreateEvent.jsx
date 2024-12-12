@@ -1,11 +1,21 @@
 
 import { FormControl, FormLabel} from "@chakra-ui/form-control";
 import { Input, Select, Textarea } from "@chakra-ui/react";
+import { CREATE_EVENT } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
+import Auth from '../utils/auth'
+
+
+
 
 
 
 // eslint-disable-next-line react/prop-types
 const CreateEvent= ({home_team, away_team})=> {
+
+  const [createEvent, {error}] = useMutation(CREATE_EVENT);
+
+ 
     return(
         
          <div>

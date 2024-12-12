@@ -7,7 +7,8 @@ import App from './App.jsx'
 import EventPage from './pages/EventPage.jsx'
 import FollowedEventsPage from './pages/FollowedEventsPage.jsx';
 
-import LoginSign from './components/LoginSign.jsx'
+import Login from './components/LoginForm.jsx'
+import Signup from './components/SignupForm.jsx'
 
 const router = createBrowserRouter([
   {
@@ -20,9 +21,13 @@ const router = createBrowserRouter([
         element: <EventPage/>
 
       },
-      { path:'loginsign',
-        element:<LoginSign/>
+      { path:'login',
+        element:<Login/>
 
+      },
+      {
+        path: 'signup',
+        element: <Signup/>
       },
       { path:'followedEvents',
         element:<FollowedEventsPage/>

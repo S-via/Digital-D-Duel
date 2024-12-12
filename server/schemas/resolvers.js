@@ -36,6 +36,7 @@ const resolvers = {
         signup: async(parent, {username, email, password})=> {
             const user = await User.create({username, email, password})
             const token = signToken(user)
+            console.log(token)
             return {token, user}
         },
         login: async(parent, {email, password})=> {
@@ -50,6 +51,7 @@ const resolvers = {
                 throw new Error('Incorrect password')
             }
             const token = signToken(user);
+
             return {token, user}
         },
         createEvent: async(parent, {eventDetails},context)=> {
