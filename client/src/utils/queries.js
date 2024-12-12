@@ -6,9 +6,18 @@ query getAllEvents($userId: ID!) {
         homeTeam
         awayTeam
         description
+        eventDate
+        creator {
+            _id
+            username
+            friends { 
+                _id
+                username
+            }
+        }
     }
 }
-`
+`;
 
 export const GET_SINGLE_EVENT = gql`
 query getEvent($userId: ID!){
@@ -26,7 +35,6 @@ query getUser($userId: ID!){
     getUser(userId: $userId){
         username
         email
-        password
         hostedEvents
         friends
     }
@@ -34,8 +42,8 @@ query getUser($userId: ID!){
 `
 
 export const ME = gql`
-query me($userId: ID!){
-    me(userId: $userId){
+query me{
+    me{
         username
         email
         hostedEvents
