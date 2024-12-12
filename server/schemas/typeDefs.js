@@ -14,14 +14,16 @@ const typeDefs = `
         user: User
     }
 
-    type Event { 
-        _id: ID!
-        homeTeam: String!
-        awayTeam: String!
-        description: String!
-        odds : Int!
-        comments: [Comment]!
-    }
+   type Event {
+    _id: ID!
+    home_team: String!
+    away_team: String!
+    description: String!
+    eventDate: String
+    comments: [Comment]!
+    friends: [User]
+    creator: User!
+}
     
     
 
@@ -33,7 +35,7 @@ const typeDefs = `
     }
 
     type Query {
-        getAllEvents(userId: ID!): [Event!]!
+        getAllEvents: [Event!]!
         getEvent(userId: ID!): Event
         getUser(userId: ID!): User
         me: User
@@ -41,10 +43,13 @@ const typeDefs = `
     }
 
     input EventInput {
-        FirstTeam: String!
-        SecondTeam: String!
+        eventId: ID!
+        home_team: String!
+        away_team: String!
         description: String!
-        odds: Int!
+        friends: [ID]
+        eventDate: String!
+
     }
 
     type Mutation { 
@@ -52,8 +57,9 @@ const typeDefs = `
         login(email: String!, password: String!): Auth
         signup(username: String!, email: String!, password: String!): Auth
         createComment(eventId: ID!, text: String!): Comment
-        addFriend(username: String!): [User]
+        addFriend(username: String!): User
         deleteEvent(_id: ID!): Event
+        joinEvent(eventId: ID!): Event
     }
 
     

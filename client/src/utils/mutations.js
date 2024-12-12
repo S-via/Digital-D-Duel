@@ -3,9 +3,15 @@ import {gql} from '@apollo/client'
 export const  CREATE_EVENT = gql`
 mutation createEvent($eventDetails: EventInput!){
     createEvent(eventDetails: $eventDetails){
-        homeTeam
-        awayTeam
+        _id
+        home_team
+        away_team
         description
+        eventDate
+        friends {
+            _id 
+            username
+        }
     }
 }
 `
@@ -55,9 +61,23 @@ mutation addFriend($username: String!){
 `
 
 export const DELETE_EVENT = gql`
-mutation deleteEvent($_id: ID!){
-    deleteEvent(_id: $id){
+mutation deleteEvent($eventId: ID!){
+    deleteEvent(eventId: $eventId){
         _id
+    }
+}
+`
+export const JOIN_EVENT = gql`
+mutation JoinEvent($eventId: ID!){
+    joinEvent(eventId: $eventId){
+        _id
+        home_team
+        away_team
+        description
+        competitors{
+            _id 
+            username
+        }
     }
 }
 `

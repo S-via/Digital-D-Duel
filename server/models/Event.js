@@ -1,38 +1,51 @@
-const { Schema, model } = require('mongoose')
-
-const commentSchema = require('./Comment')
+const { Schema, model } = require('mongoose');
+const commentSchema = require('./Comment');
+const User = require('./User');
 
 const eventSchema = new Schema(
     {
-        FirstTeam: {
+        home_team: {
             type: String,
             required: true,
         },
-        SecondTeam: {
+        away_team: {
             type: String,
             required: true,
         },
         description: {
             type: String,
-            required: true
-        },
-        odds: {
-            type: Number,
             required: true,
+        },
+        eventDate: {
+            type: String, 
+            required: true, 
         },
         creator: {
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            required: true,
         },
-        comments: [commentSchema],
+        comments: {
+            type: [commentSchema],
+            default: [], 
+        },
+        friends: {
+            type: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: 'User',
+                },
+            ],
+            default: [], 
+        },
     },
     {
         toJSON: {
-            virtuals: true
-        }
+            virtuals: true, 
+        },
     }
-)
+);
 
 const Event = model('Event', eventSchema);
 
-module.exports = Event
+module.exports = Event;

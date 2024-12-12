@@ -5,6 +5,7 @@ import {ChakraProvider} from '@chakra-ui/react'
 import './index.css'
 import App from './App.jsx'
 import EventPage from './pages/EventPage.jsx'
+import JoinEvents from './components/JoinEvents.jsx'
 
 import Login from './components/LoginForm.jsx'
 import Signup from './components/SignupForm.jsx'
@@ -27,7 +28,12 @@ const router = createBrowserRouter([
       {
         path: 'signup',
         element: <Signup/>,
+      },
+      {
+        path: 'joinEvents',
+        element: <JoinEvents/>
       }
+
     ]
   }
 ])
