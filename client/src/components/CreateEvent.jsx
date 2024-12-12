@@ -1,42 +1,112 @@
+/* eslint-disable react/prop-types */
 
-import { FormControl, FormLabel} from "@chakra-ui/form-control";
-import { Input, Select, Textarea } from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { Input, Select, Textarea, Button } from "@chakra-ui/react";
 import { CREATE_EVENT } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
-import Auth from '../utils/auth'
+import Auth from "../utils/auth";
+import { useState, useEffect } from "react";
+
+const CreateEvent = ({ selected_event }) => {
+  const [formData, setFormData] = useState({
+    eventDate: '',
+    description: '',
+    friends: '',
+  });
+
+  const [friendsList, setFriendsList] = useState([]);
 
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
+  const [createEvent] = useMutation(CREATE_EVENT);
 
+  useEffect(() => {
+    async function fetchFriends() {
+      try {
+        setFriendsList(['Antonio', 'Luciano', 'Me', 'YOu'])
+      } catch (err) {
+        console.error("Error fetching friends:", err);
+      }
+    }
+    fetchFriends();
+  }, []);
 
+  const handleCreateEvent = async (event) => {
+    event.preventDefault();
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-// eslint-disable-next-line react/prop-types
-const CreateEvent= ({home_team, away_team})=> {
+    if (!token) {
+        console.error("No token found");
+        return false;
+    }
 
-  const [createEvent, {error}] = useMutation(CREATE_EVENT);
+    try {
+        const { data } = await createEvent({
+            variables: {
+                eventDetails: {
+                    eventId: selected_event.eventId,
+                    home_team: selected_event.home_team,
+                    away_team: selected_event.away_team,
+                    description: formData.description,
+                    friends: formData.friends.split(','), // Assuming friends are comma-separated
+                    eventDate: formData.eventDate,
+                },
+            },
+        });
+        console.log("Event created:", data);
+    } catch (err) {
+        console.error("Error creating event:", err);
+    }
+};
 
- 
-    return(
-        
-         <div>
-          <h1>
-            {home_team} vs {away_team}
-          </h1>
-        
-           <FormControl>
-           <FormLabel>How long will this event run?</FormLabel>
-           <Input type='date'/>
-            <FormLabel>Description</FormLabel>
-            <Textarea type="text"/>
-            <FormLabel>Invite friends</FormLabel>
-            <Select placeholder='Select Friends'>
-            <option value=''>Option 1</option>
-            <option value=''>Option 2</option>
-            <option value=''>Option 3</option>
-            </Select>
-           </FormControl>
+  return (
+    <div>
+      <h1>
+        {selected_event.home_team} vs {selected_event.away_team}
+      </h1>
+      <form onSubmit={handleCreateEvent}>
+        <FormControl>
+          <FormLabel>How long will this event run?</FormLabel>
+          <Input
+            name="eventDate"
+            value={formData.eventDate}
+            onChange={handleInputChange}
+            type="date"
+          />
+          <FormLabel>Description</FormLabel>
+          <Textarea
+            type="text"
+            name="description"
+            onChange={handleInputChange}
+            value={formData.description}
+          />
+          <FormLabel>Invite friends</FormLabel>
+          <Select
+            placeholder="Select Friends"
+            name="friends"
+            value={formData.friends}
+            onChange={handleInputChange}
+            multiple
+          >
+            {friendsList.map((friend) => (
+              <option key={friend.id} value={friend.id}>
+                {friend.name}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+        <div className="flex items-center">
+          <Button type="submit" className="mt-4 flex mx-auto align-middle">
+            Create Event
+          </Button>
         </div>
-        
-    )
-}
+      </form>
+    </div>
+  );
+};
+
 export default CreateEvent;

@@ -1,17 +1,26 @@
 import {gql} from "@apollo/client"
 
-export const GET_ALL_EVENTS = gql `
-query GetAllEvents($user: ID!) {
+export const GET_ALL_EVENTS = gql`
+query getAllEvents($userId: ID!) {
     getAllEvents(userId: $userId){
         homeTeam
         awayTeam
         description
+        eventDate
+        creator {
+            _id
+            username
+            friends { 
+                _id
+                username
+            }
+        }
     }
 }
-`
+`;
 
 export const GET_SINGLE_EVENT = gql`
-query getEvent($user: ID!){
+query getEvent($userId: ID!){
     getEvent(userId: $userId) {
         homeTeam
         awayTeam
@@ -26,7 +35,6 @@ query getUser($userId: ID!){
     getUser(userId: $userId){
         username
         email
-        password
         hostedEvents
         friends
     }
@@ -34,8 +42,8 @@ query getUser($userId: ID!){
 `
 
 export const ME = gql`
-query me($userId: ID!){
-    me(userId: $userId){
+query me{
+    me{
         username
         email
         hostedEvents
@@ -44,3 +52,12 @@ query me($userId: ID!){
     }
 }
 `
+export const GET_USERS = gql `
+query getUsers($searchTerm: String!){
+        getUsers(searchTerm: $searchTerm){
+            username
+            _id
+    }
+
+        
+    }`

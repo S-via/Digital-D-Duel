@@ -39,7 +39,7 @@ const EventPage = () => {
     }
     fetchData()
 
-  }, [events])
+  }, [])
 
   return (
     <div className="eventpage">
@@ -84,7 +84,8 @@ const EventPage = () => {
       </Box>
       {selectedEvent && (
         <Modal isOpen={isOpen} onClose={onClose}>
-          ModalOverlay
+
+         <ModalOverlay/>
           <ModalContent>
             <ModalHeader className="modal-header">Match Details</ModalHeader>
             <ModalCloseButton />
@@ -93,6 +94,7 @@ const EventPage = () => {
             </ModalBody>
           </ModalContent>
         </Modal>
+
       )}
     </div>
   );

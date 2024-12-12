@@ -1,107 +1,161 @@
+const { User, Event, Comment } = require('../models');
+const { signToken } = require('../utils/auth');
 
-const {User, Event, Comment} = require('../models')
-const {signToken} = require('../utils/auth')
-
-const resolvers = { 
+const resolvers = {
     Query: {
-        getAllEvents: async(parent, {userId})=> {
-            const events = await Event.find({userId: userId})
-            return events
+        getAllEvents: async () => {
+            const events = await Event.find()
+                .populate('creator')
+                .populate('friends');
+            return events;
         },
-        getEvent: async(parent, {userId})=> {
-            const singleEvent = await Event.findOne({userId: userId})
-            return singleEvent
+        getEvent: async (parent, { eventId }) => {
+            const singleEvent = await Event.findById(eventId);
+            return singleEvent;
         },
-        getUser: async(parent, {userId})=> {
-            
-                const user =  await User.findOne({userId: userId})
-                    .populate('hostedEvents')
-                    .populate('friends')
-
-                return user
-            
+        getUser: async (parent, { userId }) => {
+            const user = await User.findById(userId)
+                .populate('hostedEvents')
+                .populate('friends');
+            return user;
         },
-        me: async(parent, args, context)=> {
-            if(context.user){
-                const user = await User.findOne({_id: context.user._id})
+        me: async (parent, args, context) => {
+            if (context.user) {
+                const user = await User.findById(context.user._id)
                     .populate('hostedEvents')
                     .populate('joinedEvents')
-                    .populate('friends')
-
+                    .populate('friends');
+                return user;
             }
-            
-        }
-    },
-    Mutation: {
-        signup: async(parent, {username, email, password})=> {
-            const user = await User.create({username, email, password})
-            const token = signToken(user)
-            console.log(token)
-            return {token, user}
+
+
         },
-        login: async(parent, {email, password})=> {
-            const user = await User.findOne({email})
+        getUsers: async (parent, { username }, context) => {
 
-            if(!user){
-                throw new Error('No user was found')
+            const Users = await User.find((username))
+            if (!Users) {
+                throw new Error('You need to be logged in!');
             }
-            const correctPassword = await user.isCorrectPassword(password)
 
-            if(!correctPassword){
-                throw new Error('Incorrect password')
+            return Users;
+        },
+
+    },
+
+
+    Mutation: {
+
+        signup: async (parent, { username, email, password }) => {
+            const user = await User.create({ username, email, password });
+            const token = signToken(user);
+            return { token, user };
+        },
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                throw new Error('No user was found');
+            }
+            const correctPassword = await user.isCorrectPassword(password);
+
+            if (!correctPassword) {
+                throw new Error('Incorrect password');
             }
             const token = signToken(user);
 
-            return {token, user}
+            return { token, user };
         },
-        createEvent: async(parent, {eventDetails},context)=> {
-            if(!context.user){
-                throw new Error('You need to be logged in to create an event')
+        createEvent: async (parent, { eventDetails }, context) => {
+            if (!context.user) {
+                throw new Error('You need to be logged in to create an event');
             }
 
-            const newEvent = new Event({eventDetails})
+            const { home_team, away_team, description, friends = [], eventDate } = eventDetails;
 
-            await User.findOneAndUpdate(context.user._id, {
-                $push: {hostedEvents: newEvent}
-            })
-            return newEvent
+            const sortedFriends = friends.filter((id) => id && id.trim() !== '')
 
+            const newEvent = await Event.create({
+                home_team,
+                away_team,
+                description,
+                comments: [],
+                competitors: sortedFriends,
+                creator: context.user._id,
+                eventDate,
+            });
+
+            await User.findByIdAndUpdate(
+                { _id: context.user._id },
+                { $push: { hostedEvents: newEvent._id } },
+                { new: true }
+            );
+
+            return newEvent;
         },
-        createComment: async(parent, {eventId, text}, context)=> {
-            if(!context.user){
-                throw new Error("You need to be logged in to comment on this event")
-
+        createComment: async (parent, { eventId, text }, context) => {
+            if (!context.user) {
+                throw new Error('You need to be logged in to comment on this event');
             }
-            const newComment = await Event.findOneAndUpdate({_id: eventId}, 
-                {$push: {comments: text}},
-                {new: true}
-            )
+            const comment = { user: context.user._id, text, timestamp: new Date().toISOString() };
 
-            return newComment
+            const updatedEvent = await Event.findByIdAndUpdate(
+                { _id: eventId },
+                { $push: { comments: comment } },
+                { new: true }
+            );
+
+            return updatedEvent;
         },
-        addFriend: async(parent, {username}, context)=> {
-            if(!context.user){
-                throw new Error('You need to be logged in to add a new friend')
+        addFriend: async (parent, { username }, context) => {
+            if (!context.user) {
+                throw new Error('You need to be logged in to add a new friend');
             }
-            const newFriend = await User.findOneAndUpdate({_id: context.user._id},
-                {$push: {friends: username}},
-                {new: true}
-            )
-            return newFriend
-        },
-        deleteEvent: async(parent, {_id}, context)=> {
-            if(!context.user){
-                throw new Error('You need to be logged in to edit events')
-            }
-            const updateEvent = await Event.findOneAndDelete({_id: _id})
+            const friend = await User.findOne({ username });
 
-            return updateEvent
-        }
+            if (!friend) {
+                throw new Error('User not found');
+            }
+
+            const updatedUser = await User.findByIdAndUpdate(
+                { _id: context.user._id },
+                { $push: { friends: friend._id } },
+                { new: true }
+            ).populate('friends');
+
+            return updatedUser;
+        },
+        joinEvent: async (parent, { eventId }, context) => {
+            if (!context.user) {
+                throw new Error('You need to be logged in to join an event')
+            }
+            const event = await Event.findById(eventId)
+
+            event.competitors.push(context.user._id)
+            const updatedEvent = await Event.findById(eventId).populate('competitors')
+            return updatedEvent
+        },
+        deleteEvent: async (parent, { eventId }, context) => {
+            if (!context.user) {
+                throw new Error('You need to be logged in to delete events');
+            }
+
+            const event = await Event.findById(eventId);
+
+            if (!event) {
+                throw new Error('Event not found');
+            }
+
+            if (event.creator.toString() !== context.user._id) {
+                throw new Error('You are not authorized to delete this event');
+            }
+
+            await Event.findByIdAndDelete(eventId);
+
+            return event;
+        },
 
 
     }
-
-}
+};
 
 module.exports = resolvers;
-
