@@ -1,36 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  
+  font-family: "Merriweather", serif;
   font-weight: 400;
-
+  font-style: normal;
+  font-weight: 400;
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: red;
+  background-color: hsl(238, 78%, 9%); 
 }
 
+
 a {
+  
   font-weight: 500;
-  color: #646cff;
+  color: hsl(30, 98%, 49%);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: hsl(30, 98%, 49%);
 }
 
 body {
-  margin: 0;
+  
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  
 }
 
 h1 {
@@ -45,27 +45,98 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: hsl(59, 90%, 49%);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: hsl(59, 90%, 49%);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+
 }
+
+/* nav */
+.css-p8ahvc{background-color: white;}
+/* login & signup */
+.css-1ybfer1{
+  background-color: white;
+}
+.text-white{
+  color:black
+}
+
+/* aboutus */
+.about-us{
+  
+}
+
+/* EventPage.jsx */
+.card-header{
+  font-family: "Merriweather", serif;
+  font-weight: 900;
+  font-style: normal;
+  font-size:large;
+  
+}
+.chakra-ui-light{
+  background: hsl(238, 78%, 9%);
+  
+}
+.card-container {
+  background: hsl(238, 78%, 9%);
+  perspective: 1000px; /* eventId*/
+  width: 100%;
+  max-width: 320px;
+  margin: auto;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and shadow */
+  transform-style: preserve-3d; /* Enables 3D transformation */
+  border-radius: 5px; 
+  position: relative;
+}
+
+.card:hover {
+  transform: rotateY(-50deg) rotateX(10deg); /* Rotate the card to the left to display button */
+  box-shadow: 0 12px 24px hwb(169 5% 48% / 0.598); /* green shadow*/
+}
+
+.card-body { 
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.card-footer {
+  padding: 10px;
+  background-color: #10e875d0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  
+  position: relative; /*  must have or disables create button */
+  z-index: 2; /* must have or disables cerate button */
+}
+/* Modal Header.jsx */
+.modal-header{
+
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: hsl(238, 78%, 9%);
+    background-color:hsl(238, 78%, 9%);
+   
   }
   a:hover {
-    color: #747bff;
+    color: hsl(175, 98%, 49%);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: hsl(175, 98%, 49%);
   }
 }
