@@ -22,9 +22,11 @@ p={3}
   <HStack spacing={4}>
   {Auth.loggedIn() ? (
     <Button onClick={Auth.logout}>Logout</Button>
+    
   ): (
     <Link to="/login"><Button>Login</Button></Link>
   )}
+  <Link to="/"><Button>Home</Button></Link>
   </HStack>
   <Spacer />
   <HStack spacing={6}>

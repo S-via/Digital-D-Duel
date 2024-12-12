@@ -23,10 +23,17 @@ query GetAllEvents {
 export const GET_SINGLE_EVENT = gql`
 query getEvent($eventId: ID!){
     getEvent(eventId: $eventId) {
+        
         home_team
         away_team
         description
-        comments
+        comments {
+            _id
+            user{
+                username
+            }
+            text
+        }
     }
 }
 `

@@ -10,6 +10,7 @@ import JoinEvents from './components/JoinEvents.jsx'
 import Login from './components/LoginForm.jsx'
 import Signup from './components/SignupForm.jsx'
 
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -32,7 +33,8 @@ const router = createBrowserRouter([
       {
         path: 'joinEvents',
         element: <JoinEvents/>
-      }
+      },
+      
 
     ]
   }

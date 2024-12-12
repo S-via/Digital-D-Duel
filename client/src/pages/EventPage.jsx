@@ -1,13 +1,8 @@
 import { getOdds } from "../utils/odds";
 import { useState, useEffect } from "react";
-import { Card, CardHeader, CardBody, CardFooter, SimpleGrid, Box,Modal, ModalBody, ModalContent, ModalHeader, ModalCloseButton, ModalOverlay, ModalFooter, useDisclosure } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, SimpleGrid, Box,Modal, ModalBody, ModalContent, ModalHeader, ModalCloseButton, ModalOverlay, useDisclosure } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
 import CreateEvent from "../components/CreateEvent";
-
-
-
-
-
 
 
 const EventPage = () => {
