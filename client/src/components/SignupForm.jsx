@@ -1,6 +1,6 @@
 import { SIGNUP } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
-import image from '../assets/presentation.jpg';
+import image from '/Digital Duel.gif';
 import { FormControl, FormLabel, Grid } from "@chakra-ui/react";
 import { Input, Box, Stack, Button, Heading} from "@chakra-ui/react";
 import{ Link} from 'react-router-dom';
@@ -65,13 +65,13 @@ const Signup = () => {
         zIndex={1}
         height={{ base: "180px", md: "auto" }}
         />
-        <Box
+        <Box 
         boxShadow="lg"
         borderRadius={8}
         borderWidth={1} display="flex"
         justifyContent="center"
         alignItems="center"
-        bd="white"
+        bd="black"
         zIndex={2}
         padding="20px">
         <form onSubmit={handleFormSubmit}>
