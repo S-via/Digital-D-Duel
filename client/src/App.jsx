@@ -10,11 +10,12 @@ import { setContext } from '@apollo/client/link/context'
 import Nav from './components/Nav';
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: '/graphql'
 });
 
 const authLink = setContext((_, { headers }) => {
  const token = localStorage.getItem('id_token');
+ console.log(token)
  return {
    headers: {
      ...headers,
@@ -32,15 +33,12 @@ const client = new ApolloClient({
 function App() {
 
   return (
-
-    <>
-    
     <ApolloProvider client={client}>
+    <>
     <Nav/>
-
-      <Outlet />
-    </ApolloProvider>
+      <Outlet />  
 </>
+</ApolloProvider>
   )
 }
 

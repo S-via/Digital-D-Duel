@@ -1,5 +1,6 @@
 import { Flex, Box, HStack, Button, Spacer } from '@chakra-ui/react';
 import{ Link} from 'react-router-dom';
+import Auth from '../utils/auth'
 
 function Nav (){
     return (
@@ -19,7 +20,11 @@ p={3}
 
 >
   <HStack spacing={4}>
-    <Link to="/loginsign"><Button>Signup | Login</Button></Link>
+  {Auth.loggedIn() ? (
+    <Button onClick={Auth.logout}>Logout</Button>
+  ): (
+    <Link to="/login"><Button>Login</Button></Link>
+  )}
   </HStack>
   <Spacer />
   <HStack spacing={6}>

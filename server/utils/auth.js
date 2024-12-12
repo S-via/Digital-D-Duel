@@ -1,23 +1,30 @@
 const jwt = require('jsonwebtoken')
 
-const secret = '2a11a9a92517ee1c3eeb6164733aeb0aba22aec4fdeece8f41bbc63d894263ed'
+const secret = process.env.SECRET_JWT || 'mysecretsshh';
 const expiration = '2h';
 
 module.exports = {
     authMiddleware: function({req}){
         let token = req.body.token ||req.query.token || req.headers.authorization;
-
-        if(req.headers.authorization){
-            token = token.split(' ').pop().trim();
+        console.log("Authorization Header:", req.headers.authorization);
+        console.log("Token from body/query:", token);
+        if (req.headers.authorization) {
+            const parts = req.headers.authorization.split(' ');
+            if (parts[0] !== 'Bearer' || parts.length !== 2) {
+                throw new Error("Authorization header format must be 'Bearer <token>'");
+            }
+            token = parts[1].trim();
         }
         if(!token){
             return req;
         }
+        
         try{
             const{data} = jwt.verify(token,secret,{maxAge:expiration});
             req.user= data;
-        } catch{
-            console.log('token not valid');
+            
+        } catch(err){
+            console.log('token not valid', err.message);
             throw new Error("Token is not valid")
         }
         return req;
