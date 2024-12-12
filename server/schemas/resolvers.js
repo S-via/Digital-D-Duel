@@ -5,8 +5,8 @@ const resolvers = {
     Query: {
         getAllEvents: async () => {
             const events = await Event.find()
-            .populate('creator')
-            .populate('friends');
+                .populate('creator')
+                .populate('friends');
             return events;
         },
         getEvent: async (parent, { eventId }) => {
@@ -27,10 +27,24 @@ const resolvers = {
                     .populate('friends');
                 return user;
             }
-            throw new Error('You need to be logged in!');
+
+
         },
+        getUsers: async (parent, { username }, context) => {
+
+            const Users = await User.find((username))
+            if (!Users) {
+                throw new Error('You need to be logged in!');
+            }
+
+            return Users;
+        },
+
     },
+
+
     Mutation: {
+
         signup: async (parent, { username, email, password }) => {
             const user = await User.create({ username, email, password });
             const token = signToken(user);
@@ -56,9 +70,9 @@ const resolvers = {
                 throw new Error('You need to be logged in to create an event');
             }
 
-            const { home_team, away_team, description, friends=[], eventDate } = eventDetails;
+            const { home_team, away_team, description, friends = [], eventDate } = eventDetails;
 
-            const sortedFriends = friends.filter((id)=> id && id.trim() !== '')
+            const sortedFriends = friends.filter((id) => id && id.trim() !== '')
 
             const newEvent = await Event.create({
                 home_team,
@@ -110,8 +124,8 @@ const resolvers = {
 
             return updatedUser;
         },
-        joinEvent: async(parent, {eventId}, context)=> {
-            if(!context.user){
+        joinEvent: async (parent, { eventId }, context) => {
+            if (!context.user) {
                 throw new Error('You need to be logged in to join an event')
             }
             const event = await Event.findById(eventId)
@@ -139,7 +153,9 @@ const resolvers = {
 
             return event;
         },
-    },
+
+
+    }
 };
 
 module.exports = resolvers;
