@@ -36,6 +36,7 @@ query getUser($userId: ID!){
         username
         email
         hostedEvents
+        joinedEvents
         friends
     }
 }
