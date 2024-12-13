@@ -3,6 +3,7 @@ import { Flex, Box, HStack, Button, Spacer, Input, InputGroup, InputRightElement
 import { Link, useNavigate } from 'react-router-dom';
 import { SearchIcon } from '@chakra-ui/icons';
 import Auth from '../utils/auth';
+import { BREAK } from 'graphql';
 function Nav() {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
@@ -40,8 +41,7 @@ function Nav() {
             <Link to="/login"><Button>Login</Button></Link>
           )}
         </HStack>
-        <Spacer />
-        <HStack spacing={6}>
+        <HStack spacing={6} ml={2}>
           <Link to="/profile"><Button>My Profile</Button></Link>
         </HStack>
         <Spacer />
@@ -59,6 +59,13 @@ function Nav() {
             </Button>
           </InputRightElement>
         </InputGroup>
+        <HStack spacing={4} mr={2}>
+          {Auth.loggedIn() ? (
+            <Button onClick={{/*add friend function*/}}>Add Friend</Button>
+          ) : (
+            <></>
+          )}
+        </HStack>
         <HStack spacing={6}>
           <Link to="/joinEvents"><Button>Join Event</Button></Link>
         </HStack>

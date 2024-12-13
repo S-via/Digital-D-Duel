@@ -7,7 +7,7 @@ function SearchResults() {
     //build a query that gets a search term
     const [searchTerm, setSearchTerm] = useState('');
     const{loading, error, data} = useQuery(GET_USERS, {
-      varuables:
+      variables:
       {searchTerm}
     })
     if(loading) return <p>loading...</p>

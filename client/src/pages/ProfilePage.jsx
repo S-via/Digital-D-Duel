@@ -7,10 +7,10 @@ import { Box,Card, CardBody, SimpleGrid,
 import { GET_ALL_EVENTS } from '../utils/queries';
 import  Auth  from '../utils/auth';
 
-const openEventDetails = function (event) {
-    //update after sinngle event page is finished
-   window.location.assign('/singleEvent')
-}
+// const openEventDetails = function (event) {
+//     //update after sinngle event page
+//    window.location.assign('/singleEvent')
+// }
 
 const FollowedEventsPage = () => {
     const [events, setEvents] = useState([]);
@@ -123,7 +123,7 @@ const FollowedEventsPage = () => {
                                     </Text>
                                 </CardBody>
                                 <CardFooter justifyContent='flex-end'>
-                                    <Button mr={6} className="text-black" onClick={() => openEventDetails(item.id)}>View Event</Button>
+                                    <Button mr={6} className="text-black" /*onClick={() => openEventDetails(item.id)}*/>View Event</Button>
                                 </CardFooter>
                             </Card>
 
