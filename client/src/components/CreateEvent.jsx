@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input, Select, Textarea, Button,List,ListItem } from "@chakra-ui/react";
+import { Input, Textarea, Button,useToast} from "@chakra-ui/react";
 import { CREATE_EVENT } from "../utils/mutations";
 import { useMutation, useQuery } from "@apollo/client";
 import Auth from "../utils/auth";
 import { useState } from "react";
 import { ME } from "../utils/queries";
+import{useNavigate} from 'react-router-dom'; // to redirect to single page event 
+
 
 const CreateEvent = ({ selected_event }) => {
   const [formData, setFormData] = useState({
@@ -17,12 +19,15 @@ const CreateEvent = ({ selected_event }) => {
 
 
   const {loading, error, data} = useQuery(ME)
+  const toast = useToast(); // toast function
+  const navigate = useNavigate(); // navigate function
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
-  const friends = data?.me?.friends || [];
+  /* const friends = data?.me?.friends || []; */
 
   const [createEvent] = useMutation(CREATE_EVENT);
 
@@ -52,6 +57,18 @@ const CreateEvent = ({ selected_event }) => {
             },
         });
         console.log("Event created:", data);
+
+        // toast //
+        toast ({
+          title:"Event Created",
+          description:"Your Event Has Been Created :) !",
+          status:"success",
+          duration:2000,
+          isClosable:true
+        });
+        // navigate to singlepage.jsx ///
+        navigate(`/event/:${selected_event.eventId}`);
+        
     } catch (err) {
         console.error("Error creating event:", err);
     }
@@ -82,20 +99,7 @@ const CreateEvent = ({ selected_event }) => {
             onChange={handleInputChange}
             value={formData.description}
           />
-          <FormLabel>Invite friends Or Select Friends</FormLabel>
-          <Select
-            
-            name="friends"
-            value={formData.friends}
-            onChange={handleInputChange}
-            multiple
-          >
-            {friends.map((friend) => (
-              <option key={friend._id}>
-                {friend.username}
-              </option>
-            ))}
-          </Select>
+        
         </FormControl>
         
           <Button type="submit">
