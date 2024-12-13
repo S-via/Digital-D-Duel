@@ -91,7 +91,7 @@ const EventPage = () => {
             <ModalHeader className="modal-header">Match Details</ModalHeader>
             <ModalCloseButton />
             <ModalBody className="modal-body">
-              <CreateEvent className="createevent"selected_event={selectedEvent} />
+              <CreateEvent className="createevent"selected_event={selectedEvent} onClose={onClose} />
             </ModalBody>
           </ModalContent>
         </Modal>
