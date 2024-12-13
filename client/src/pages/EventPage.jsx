@@ -49,7 +49,7 @@ const EventPage = () => {
         <Image src={image} boxSize={["100%","300px"]} objectFit="cover"></Image>
         </Flex>
         <Box>
-        <Text fontSize="2x1" textAlign="justify"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
+        <Text className="text"fontSize="2x1" textAlign="justify"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
         </Box>
     </Box>
    

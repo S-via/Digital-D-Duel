@@ -73,10 +73,23 @@ button:focus-visible {
   margin:65px;
   
 }
+/* joinEvents */
+.css-0 {
+  margin:65px;
+
+}
+.join-events{
+  color:antiquewhite
+}
+
 .search-bar
 {margin:65px;}
 
 /* EventPage.jsx */
+.text{
+  color:antiquewhite
+
+}
 .card-header{
   font-family: "Merriweather", serif;
   font-weight: 900;
