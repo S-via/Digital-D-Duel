@@ -36,10 +36,14 @@ function Nav() {
         {/* use for add friend button */}
         <HStack spacing={4}>
           {Auth.loggedIn() ? (
+            <>
             <Button onClick={Auth.logout}>Logout</Button>
+            <Link to="/me"><Button>My Profile</Button></Link>
+            </>
           ) : (
             <Link to="/login"><Button>Login</Button></Link>
           )}
+          <Link to='/'><Button>Home</Button></Link>
         </HStack>
         <HStack spacing={6} ml={2}>
           <Link to="/profile"><Button>My Profile</Button></Link>

@@ -27,7 +27,12 @@ const CreateEvent = ({ selected_event }) => {
   useEffect(() => {
     async function fetchFriends() {
       try {
-        setFriendsList(['Antonio', 'Luciano', 'Me', 'YOu'])
+        setFriendsList([
+          { id: '1', name: 'Antonio' },
+          { id: '2', name: 'Luciano' },
+          { id: '3', name: 'Me' },
+          { id: '4', name: 'You' },
+        ]);
       } catch (err) {
         console.error("Error fetching friends:", err);
       }
@@ -52,7 +57,7 @@ const CreateEvent = ({ selected_event }) => {
                     home_team: selected_event.home_team,
                     away_team: selected_event.away_team,
                     description: formData.description,
-                    friends: formData.friends.split(','), // Assuming friends are comma-separated
+                    friends: formData.friends.split(','), 
                     eventDate: formData.eventDate,
                 },
             },
@@ -93,7 +98,7 @@ const CreateEvent = ({ selected_event }) => {
             multiple
           >
             {friendsList.map((friend) => (
-              <option key={friend.id} value={friend.id}>
+              <option key={friend.id} value={friend.name}>
                 {friend.name}
               </option>
             ))}

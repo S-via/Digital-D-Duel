@@ -13,8 +13,8 @@ const resolvers = {
             const singleEvent = await Event.findById(eventId);
             return singleEvent;
         },
-        getUser: async (parent, { userId }) => {
-            const user = await User.findById(userId)
+        getUser: async (parent, { username }) => {
+            const user = await User.findOne(username ? {username}: {})
                 .populate('hostedEvents')
                 .populate('joinedEvents')
                 .populate('friends');
@@ -22,18 +22,20 @@ const resolvers = {
         },
         me: async (parent, args, context) => {
             if (context.user) {
-                const user = await User.findById(context.user._id)
+                const user = await User.findOne({_id: context.user._id})
                     .populate('hostedEvents')
                     .populate('joinedEvents')
                     .populate('friends');
-                return user;
+                    return user;
             }
+            
 
 
         },
-        getUsers: async (parent, { username }, context) => {
+        getUsers: async (parent, { searchTerm }, context) => {
 
-            const Users = await User.find((username))
+            const Users = await User.find({
+                username: {$regex: searchTerm,  $options: 'i'}})
             if (!Users) {
                 throw new Error('You need to be logged in!');
             }
@@ -132,6 +134,7 @@ const resolvers = {
             const event = await Event.findById(eventId)
 
             event.competitors.push(context.user._id)
+            await event.save()
             const updatedEvent = await Event.findById(eventId).populate('competitors')
             return updatedEvent
         },

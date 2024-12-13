@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import { JOIN_EVENT } from "../utils/mutations";
 import Auth from '../utils/auth';
 import { Button } from "@chakra-ui/react";
+import { redirect } from "react-router-dom";
 
 const JoinButton = ({eventId, creatorFriends}) => {
     const [joinEvent] = useMutation(JOIN_EVENT)
@@ -18,6 +19,7 @@ const JoinButton = ({eventId, creatorFriends}) => {
         }
         try{
             await joinEvent({ variables: {eventId}})
+            redirect('/')
         
         }catch(err){
             console.error('Error joining event', err)

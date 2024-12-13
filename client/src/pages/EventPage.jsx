@@ -90,7 +90,7 @@ const EventPage = () => {
             <ModalHeader className="modal-header">Match Details</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <CreateEvent home_team={selectedEvent.home_team} away_team={selectedEvent.away_team} />
+              <CreateEvent selected_event={selectedEvent} />
             </ModalBody>
           </ModalContent>
         </Modal>
