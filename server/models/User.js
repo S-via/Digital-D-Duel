@@ -53,6 +53,11 @@ userSchema.methods.isCorrectPassword = async function (password) {
     return bcrypt.compare(password, this.password)
 }
 
+// userSchema.methods.updatePassword = async function (password){
+//     const saltRounds = 10;
+//     const newPassword = await bcrypt.hash(password, saltRounds);
+//     return newPassword 
+// }
 const User = model('User', userSchema)
 
 module.exports = User;
