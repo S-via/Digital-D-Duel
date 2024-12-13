@@ -28,7 +28,7 @@ const JoinButton = ({eventId, creatorFriends, currentUser}) => {
         }
     }
     return (
-        <Button onClick={handleJoin}>Join Event</Button>
+        <Button className="text-white" onClick={handleJoin}>Join Event</Button>
     )
 }
 export default JoinButton
