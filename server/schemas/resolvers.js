@@ -114,15 +114,22 @@ const resolvers = {
             }
             const friend = await User.findOne({ username });
 
+            const user = await User.findById(context.user._id)
+
+            if(user.friends.includes(friend._id)){
+                throw new Error('Already friends')
+            }
             if (!friend) {
                 throw new Error('User not found');
             }
 
-            const updatedUser = await User.findByIdAndUpdate(
-                { _id: context.user._id },
-                { $push: { friends: friend._id } },
-                { new: true }
-            ).populate('friends');
+           user.friends.push(friend._id)
+           friend.friends.push(context.user._id)
+
+           await user.save()
+           await friend.save()
+
+            const updatedUser = await User.findById(context.user._id).populate('friends')
 
             return updatedUser;
         },
@@ -134,7 +141,7 @@ const resolvers = {
 
             event.competitors.push(context.user._id)
             await event.save()
-            const updatedEvent = await Event.findById(eventId).populate('competitors')
+            const updatedEvent = await Event.findById(eventId).populate('friends')
             return updatedEvent
         },
         deleteEvent: async (parent, { eventId }, context) => {

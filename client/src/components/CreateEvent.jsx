@@ -3,9 +3,10 @@
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, Select, Textarea, Button } from "@chakra-ui/react";
 import { CREATE_EVENT } from "../utils/mutations";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import Auth from "../utils/auth";
 import { useState, useEffect } from "react";
+import { ME } from "../utils/queries";
 
 const CreateEvent = ({ selected_event }) => {
   const [formData, setFormData] = useState({
@@ -16,29 +17,16 @@ const CreateEvent = ({ selected_event }) => {
 
   const [friendsList, setFriendsList] = useState([]);
 
+  const {loading, error, data} = useQuery(ME)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
+  const friends = data?.me?.friends || [];
 
   const [createEvent] = useMutation(CREATE_EVENT);
 
-  useEffect(() => {
-    async function fetchFriends() {
-      try {
-        setFriendsList([
-          { id: '1', name: 'Antonio' },
-          { id: '2', name: 'Luciano' },
-          { id: '3', name: 'Me' },
-          { id: '4', name: 'You' },
-        ]);
-      } catch (err) {
-        console.error("Error fetching friends:", err);
-      }
-    }
-    fetchFriends();
-  }, []);
 
   const handleCreateEvent = async (event) => {
     event.preventDefault();
@@ -48,6 +36,8 @@ const CreateEvent = ({ selected_event }) => {
         console.error("No token found");
         return false;
     }
+    if(loading) return <p>Loading ...</p>
+    if(error) return <h1>{error.message}</h1>
 
     try {
         const { data } = await createEvent({
@@ -97,9 +87,9 @@ const CreateEvent = ({ selected_event }) => {
             onChange={handleInputChange}
             multiple
           >
-            {friendsList.map((friend) => (
-              <option key={friend.id} value={friend.name}>
-                {friend.name}
+            {friends.map((friend) => (
+              <option key={friend._id}>
+                {friend.username}
               </option>
             ))}
           </Select>

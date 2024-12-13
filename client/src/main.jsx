@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         path: 'signup',
         element: <Signup/>
       },
-      { path:'/profile/:profileId',
+      { path:'/profile/:username',
         element:<FollowedEventsPage/>
 
       },

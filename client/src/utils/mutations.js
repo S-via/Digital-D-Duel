@@ -55,7 +55,6 @@ export const ADD_FRIEND = gql`
 mutation addFriend($username: String!){
     addFriend(username: $username){
         username
-        hostedEvents
     }
 }
 `
@@ -74,7 +73,7 @@ mutation JoinEvent($eventId: ID!){
         home_team
         away_team
         description
-        competitors{
+        friends{
             _id 
             username
         }

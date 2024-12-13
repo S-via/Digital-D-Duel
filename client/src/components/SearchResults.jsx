@@ -1,7 +1,8 @@
-import { useState } from 'react';
+
 import {useQuery} from '@apollo/client'
 import { GET_USERS } from '../utils/queries';
 import { useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function SearchResults() {
     //build a query that gets a search term
@@ -26,7 +27,8 @@ function SearchResults() {
       {data?.getUsers?.length > 0 ? (
           <ul>
               {data.getUsers.map((user) => (
-                  <li key={user._id}>{user.username}</li>
+                  
+                  <li key={user._id}><Link to={`/profile/${user.username}`}>{user.username}</Link></li>
               ))}
           </ul>
       ) : (
