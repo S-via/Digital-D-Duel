@@ -60,11 +60,13 @@ function Nav() {
           </InputRightElement>
         </InputGroup>
         <HStack spacing={4} mr={2}>
-          {Auth.loggedIn() ? (
-            <Button onClick={{/*add friend function*/}}>Add Friend</Button>
+        <HStack spacing={4} mr={2}>
+          {Auth.loggedIn() ? ((({/*  */})
+            <Button onClick={{/*add friend function*/}}>Add Friend</Button>)
           ) : (
             <></>
           )}
+        </HStack>
         </HStack>
         <HStack spacing={6}>
           <Link to="/joinEvents"><Button>Join Event</Button></Link>
