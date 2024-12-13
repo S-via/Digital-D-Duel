@@ -60,6 +60,7 @@ const typeDefs = `
         addFriend(username: String!): User
         deleteEvent(_id: ID!): Event
         joinEvent(eventId: ID!): Event
+        removeFriend(username: String!): User
     }
 
     

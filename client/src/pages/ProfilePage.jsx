@@ -6,17 +6,38 @@ import { GET_USER, ME } from '../utils/queries';
 import { ADD_FRIEND } from '../utils/mutations';
 import  Auth  from '../utils/auth';
 import { useParams, Navigate } from 'react-router-dom';
+import { REMOVE_FRIEND } from '../utils/mutations';
 
 
 
 
 const FollowedEventsPage = () => {
     const {username: userParam} = useParams();
+    const [removeFriend] = useMutation(REMOVE_FRIEND, {
+        onCompleted: () => {
+            setIsFriend(false);
+        },
+    })
+
+    const handleAddFriend = async()=> {
+        await addFriend({
+            variables: {
+                username: profile.username
+            }
+        })
+    }
+
+    const handleRemoveFriend = async()=> {
+        await removeFriend({
+            variables: {
+                username: profile.username
+            }
+        })
+    }
     const [addFriend] = useMutation(ADD_FRIEND, {
         onCompleted: () => {
             setIsFriend(true);
         },
-        onError: (err) => console.error('Error adding friend:', err),
     });
 
     const [isFriend, setIsFriend] = useState(false)
@@ -34,6 +55,7 @@ const FollowedEventsPage = () => {
         setIsFriend(true);
     }
 }, [profile]);
+
   
    
   
@@ -55,8 +77,21 @@ const FollowedEventsPage = () => {
         <h2>{userParam ? `${profile.username}'s` : 'My'} profile</h2>
         <p>Number of Friends: {profile.friends?.length || 0}</p>
         {userParam && !isFriend && (
-            <button onClick={async()=> await addFriend({variables: {username: profile.username}})}>Add Friend</button>
+            <button onClick={handleAddFriend}>Add Friend</button>
         )}
+        {userParam && isFriend && (
+            <button onClick={handleRemoveFriend}>Remove Friend</button>
+        )}
+
+        {!userParam && (
+            profile.hostedEvents.map((event)=> {
+                <div key={event._id}>
+                <li>{event.home_team} vs {event.away_team}</li>
+                <li>{event.description}</li>
+                </div>
+            })
+        )}
+
     </div>
     
    )

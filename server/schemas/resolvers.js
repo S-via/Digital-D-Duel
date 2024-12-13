@@ -169,6 +169,23 @@ const resolvers = {
 
             return event;
         },
+        removeFriend: async(parent, {username}, context) => {
+            if(!context.user){
+                throw new Error("You need to be logged in to remove a friend")
+            }
+            const friend = await User.findOne({username})
+
+            const currentUser = await User.findById(context.user._id)
+
+            currentUser.friends.pull(friend)
+            friend.friends.pull(currentUser)
+
+            await currentUser.save()
+            await friend.save()
+
+            const updatedUser = await User.findById(context.user._id).populate('friends')
+            return updatedUser
+        }
 
 
     }

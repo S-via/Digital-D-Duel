@@ -82,3 +82,12 @@ mutation JoinEvent($eventId: ID!){
 }
 `
 
+export const REMOVE_FRIEND = gql`
+mutation RemoveFriend($username: String!){
+    removeFriend(username: $username){
+        _id
+        username
+    }
+}
+`
+
