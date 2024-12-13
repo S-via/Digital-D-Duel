@@ -98,15 +98,21 @@ const resolvers = {
             if (!context.user) {
                 throw new Error('You need to be logged in to comment on this event');
             }
-            const comment = { user: context.user._id, text, timestamp: new Date().toISOString() };
+            if (!text || text.trim() === "") {
+                throw new Error("Comment text cannot be empty.");
+            }
+            const event = await Event.findById(eventId)
 
-            const updatedEvent = await Event.findByIdAndUpdate(
-                { _id: eventId },
-                { $push: { comments: comment } },
-                { new: true }
-            );
+            const comment = {
+                user: context.user._id,
+                text: text.trim(),
+                timestamp: new Date().toISOString()
+            }
 
-            return updatedEvent;
+            event.comments.push(comment)
+            await event.save()
+
+            return comment
         },
         addFriend: async (parent, { username }, context) => {
             if (!context.user) {
@@ -139,7 +145,7 @@ const resolvers = {
             }
             const event = await Event.findById(eventId)
 
-            event.competitors.push(context.user._id)
+            event.friends.push(context.user._id)
             await event.save()
             const updatedEvent = await Event.findById(eventId).populate('friends')
             return updatedEvent

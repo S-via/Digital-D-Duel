@@ -2,13 +2,19 @@ import {useState} from 'react'
 import { GET_SINGLE_EVENT } from '../utils/queries'
 import { CREATE_COMMENT } from '../utils/mutations'
 import { useQuery, useMutation } from '@apollo/client'
+import { useParams } from 'react-router-dom'
 
-const SingleEvent = ({eventId})=> {
-    const [data, loading, error] = useQuery(GET_SINGLE_EVENT, {
-        variables: {id: eventId}
+
+const SingleEvent = ()=> {
+    const {eventId} = useParams();
+    const {data, loading, error} = useQuery(GET_SINGLE_EVENT, {
+        variables: { eventId}
     })
     const [createComment] = useMutation(CREATE_COMMENT)
     const event = data?.getEvent;
+    const [commentText, setCommentText] = useState('')
+
+    
 
 
 
@@ -21,7 +27,22 @@ const SingleEvent = ({eventId})=> {
     }
     
     console.log(event)
-
+    const handleCreateComment = async() => {
+        if(!commentText.trim()){
+            return
+        }
+        try{
+            await createComment({
+                variables: {
+                    eventId,
+                    text: commentText
+                }
+            })
+            setCommentText('')
+        }catch(err){
+            console.error(err)
+        }
+    }
 
     return (
         <div>
@@ -32,9 +53,18 @@ const SingleEvent = ({eventId})=> {
             <p>{comment.text}</p>
             <p>By: {comment.user.username}</p>
             
-            </div>
-            
+            </div>    
         ))}
+        <div>
+            <textarea
+            value={commentText}
+            onChange={(e)=> setCommentText(e.target.value)}
+            placeholder='Add a comment'
+            >
+            </textarea>
+            <button onClick={handleCreateComment}>Add Comment</button>
+        </div>
+
         </div>
     )
 }

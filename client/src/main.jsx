@@ -12,6 +12,7 @@ import Login from './components/LoginForm.jsx'
 import Signup from './components/SignupForm.jsx'
 import CreateEvent from './components/CreateEvent.jsx'
 import SearchResults from './components/SearchResults.jsx'
+import SingleEvent from './components/SingleEvent.jsx'
 
 
 
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path:'search',
         element: <SearchResults/>
+      },
+      {
+        path: '/event/:eventId',
+        element: <SingleEvent/>
       }
       
 

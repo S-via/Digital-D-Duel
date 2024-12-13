@@ -1,9 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { GET_ALL_EVENTS } from "../utils/queries";
 import JoinButton from "./JoinButton";
+import Auth from '../utils/auth'
 
 const JoinEvents = () => {
     const { data, loading, error } = useQuery(GET_ALL_EVENTS);
+    const currentUser = Auth.loggedIn() ? Auth.getProfile().data : null;
 
 
     if (loading) return <p>Loading events...</p>;
@@ -15,6 +17,9 @@ const JoinEvents = () => {
     if (!data || !data.getAllEvents || data.getAllEvents.length === 0) {
         return <p>No events available at the moment.</p>;
     }
+    console.log(data)
+
+    
 
     return (
         <div>
@@ -30,11 +35,12 @@ const JoinEvents = () => {
                 >
                     <h2>
                         {event.home_team} vs {event.away_team}
+                        {event.eventId}
                     </h2>
                     <p>{event.description}</p>
                     <p>Event Date: {event.eventDate}</p>
                     <p>Created by: {event.creator?.username || "Unknown"}</p>
-                    <h3>Participants:</h3>
+                    <h3>Participants: {event.creator.friends?.length || ""}</h3>
                     <ul>
                         {event.friends?.map((user) => (
                             <li key={user._id}>{user.username}</li>
@@ -43,6 +49,7 @@ const JoinEvents = () => {
                     <JoinButton
                         eventId={event._id}
                         creatorFriends={event.creator?.friends || []}
+                        currentUser={currentUser}
                     />
                 </div>
             ))}

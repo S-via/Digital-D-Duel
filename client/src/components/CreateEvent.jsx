@@ -5,7 +5,7 @@ import { Input, Select, Textarea, Button } from "@chakra-ui/react";
 import { CREATE_EVENT } from "../utils/mutations";
 import { useMutation, useQuery } from "@apollo/client";
 import Auth from "../utils/auth";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ME } from "../utils/queries";
 
 const CreateEvent = ({ selected_event }) => {
@@ -15,7 +15,6 @@ const CreateEvent = ({ selected_event }) => {
     friends: '',
   });
 
-  const [friendsList, setFriendsList] = useState([]);
 
   const {loading, error, data} = useQuery(ME)
 

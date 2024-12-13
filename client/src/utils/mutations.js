@@ -42,6 +42,7 @@ mutation Signup($username: String!, $email: String!, $password: String!){
 export const CREATE_COMMENT = gql`
 mutation createComment($eventId: ID!, $text: String!){
     createComment(eventId: $eventId, text: $text){
+        _id
         user{
             username
         }
