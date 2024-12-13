@@ -21,7 +21,8 @@ function SearchResults() {
 
 
     return (
-      <div>
+        <>
+      <div className='search-bar'>
       <h1>Search Results for "{query}"</h1>
       {data?.getUsers?.length > 0 ? (
           <ul>
@@ -33,6 +34,7 @@ function SearchResults() {
           <p>No users found.</p>
       )}
   </div>
+  </>
       );
 }
 

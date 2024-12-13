@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input, Select, Textarea, Button } from "@chakra-ui/react";
+import { Input, Select, Textarea, Button,List,ListItem } from "@chakra-ui/react";
 import { CREATE_EVENT } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
@@ -69,9 +69,13 @@ const CreateEvent = ({ selected_event }) => {
 };
 
   return (
-    <div>
+    <>
+    
       <h1>
-        {selected_event.home_team} vs {selected_event.away_team}
+       <ul> <span className="home-team">
+       {selected_event.home_team}</span></ul>
+        <span className="vs">vs</span>
+        <ul><span className="away-team">{selected_event.away_team}</span></ul>
       </h1>
       <form onSubmit={handleCreateEvent}>
         <FormControl>
@@ -89,9 +93,9 @@ const CreateEvent = ({ selected_event }) => {
             onChange={handleInputChange}
             value={formData.description}
           />
-          <FormLabel>Invite friends</FormLabel>
+          <FormLabel>Invite friends Or Select Friends</FormLabel>
           <Select
-            placeholder="Select Friends"
+            
             name="friends"
             value={formData.friends}
             onChange={handleInputChange}
@@ -104,13 +108,14 @@ const CreateEvent = ({ selected_event }) => {
             ))}
           </Select>
         </FormControl>
-        <div className="flex items-center">
-          <Button type="submit" className="mt-4 flex mx-auto align-middle">
+        
+          <Button type="submit">
             Create Event
           </Button>
-        </div>
+        
       </form>
-    </div>
+    
+    </>
   );
 };
 
