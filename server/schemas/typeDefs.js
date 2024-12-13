@@ -37,8 +37,9 @@ const typeDefs = `
     type Query {
         getAllEvents: [Event!]!
         getEvent(userId: ID!): Event
-        getUser(userId: ID!): User
+        getUser(username: String!): User
         me: User
+        getUsers(searchTerm: String!): [User]
     }
 
     input EventInput {

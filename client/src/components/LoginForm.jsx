@@ -3,7 +3,7 @@ import { Box, Heading, Input, Button, Stack, Grid } from '@chakra-ui/react';
 import { FormControl, FormLabel} from '@chakra-ui/form-control'
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../utils/mutations";
-import image from '../assets/presentation.jpg'
+import image from '/Digital Duel.gif'
 import Auth from '../utils/auth'
 import{ Link} from 'react-router-dom';
 
@@ -72,6 +72,7 @@ const Login = ()=> {
                                 isRequired>
                                 <FormLabel>Email</FormLabel>
                                 <Input
+                                
                                     name="email"
                                     type="email"
                                     value={formData.email}
