@@ -82,15 +82,31 @@ const FollowedEventsPage = () => {
         {userParam && isFriend && (
             <button onClick={handleRemoveFriend}>Remove Friend</button>
         )}
-
-        {!userParam && (
-            profile.hostedEvents.map((event)=> {
-                <div key={event._id}>
+        <div>
+        {
+    profile.hostedEvents.map((event) => (
+        <div key={event._id}>
+            <li>{event.home_team} vs {event.away_team}</li>
+            <li>{event.description}</li>
+        </div>
+    ))
+}
+</div> 
+<div>
+{!userParam && (
+    profile.joinedEvents?.length > 0 ? (
+        profile.joinedEvents.map((event) => (
+            <div key={event._id}>
                 <li>{event.home_team} vs {event.away_team}</li>
                 <li>{event.description}</li>
-                </div>
-            })
-        )}
+            </div>
+        ))
+    ) : (
+        <p>No joined events available.</p>
+    )
+)}
+</div>
+
 
     </div>
     
