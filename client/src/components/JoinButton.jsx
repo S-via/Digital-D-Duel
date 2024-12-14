@@ -1,16 +1,17 @@
 /* eslint-disable react/prop-types */
 import { useMutation } from "@apollo/client";
 import { JOIN_EVENT } from "../utils/mutations";
-import Auth from '../utils/auth';
+
 import { Button } from "@chakra-ui/react";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const JoinButton = ({eventId, creatorFriends}) => {
+const JoinButton = ({eventId, creatorFriends, currentUser}) => {
     const [joinEvent] = useMutation(JOIN_EVENT)
+    const navigate = useNavigate()
 
-    const currentUser = Auth.loggedIn() ? Auth.getProfile().data._id : null;
+   
 
-    const isFriend = creatorFriends.some((friend) => friend._id === currentUser)
+    const isFriend = creatorFriends.some((friend) => friend._id === currentUser?._id)
 
     const handleJoin = async() => {
         if(!isFriend){
@@ -19,14 +20,15 @@ const JoinButton = ({eventId, creatorFriends}) => {
         }
         try{
             await joinEvent({ variables: {eventId}})
-            redirect('/')
-        
+            navigate(`/event/${eventId}`)
+            
         }catch(err){
             console.error('Error joining event', err)
+            
         }
     }
     return (
-        <Button onClick={handleJoin}>Join Event</Button>
+        <Button className="text-white" onClick={handleJoin}>Join Event</Button>
     )
 }
 export default JoinButton

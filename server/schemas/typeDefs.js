@@ -1,7 +1,7 @@
 const typeDefs = `
     type User { 
         _id: ID!
-        username: String!
+        username: String
         email: String!
         password: String!
         hostedEvents: [Event]!
@@ -36,7 +36,7 @@ const typeDefs = `
 
     type Query {
         getAllEvents: [Event!]!
-        getEvent(userId: ID!): Event
+        getEvent(eventId: ID!): Event
         getUser(username: String!): User
         me: User
         getUsers(searchTerm: String!): [User]
@@ -60,6 +60,7 @@ const typeDefs = `
         addFriend(username: String!): User
         deleteEvent(_id: ID!): Event
         joinEvent(eventId: ID!): Event
+        removeFriend(username: String!): User
     }
 
     

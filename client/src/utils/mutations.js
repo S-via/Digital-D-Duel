@@ -42,6 +42,7 @@ mutation Signup($username: String!, $email: String!, $password: String!){
 export const CREATE_COMMENT = gql`
 mutation createComment($eventId: ID!, $text: String!){
     createComment(eventId: $eventId, text: $text){
+        _id
         user{
             username
         }
@@ -55,7 +56,6 @@ export const ADD_FRIEND = gql`
 mutation addFriend($username: String!){
     addFriend(username: $username){
         username
-        hostedEvents
     }
 }
 `
@@ -74,10 +74,19 @@ mutation JoinEvent($eventId: ID!){
         home_team
         away_team
         description
-        competitors{
+        friends{
             _id 
             username
         }
+    }
+}
+`
+
+export const REMOVE_FRIEND = gql`
+mutation RemoveFriend($username: String!){
+    removeFriend(username: $username){
+        _id
+        username
     }
 }
 `

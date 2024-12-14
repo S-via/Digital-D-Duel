@@ -99,15 +99,21 @@ const resolvers = {
             if (!context.user) {
                 throw new Error('You need to be logged in to comment on this event');
             }
-            const comment = { user: context.user._id, text, timestamp: new Date().toISOString() };
+            if (!text || text.trim() === "") {
+                throw new Error("Comment text cannot be empty.");
+            }
+            const event = await Event.findById(eventId)
 
-            const updatedEvent = await Event.findByIdAndUpdate(
-                { _id: eventId },
-                { $push: { comments: comment } },
-                { new: true }
-            );
+            const comment = {
+                user: context.user._id,
+                text: text.trim(),
+                timestamp: new Date().toISOString()
+            }
 
-            return updatedEvent;
+            event.comments.push(comment)
+            await event.save()
+
+            return comment
         },
         addFriend: async (parent, { username }, context) => {
             if (!context.user) {
@@ -115,15 +121,22 @@ const resolvers = {
             }
             const friend = await User.findOne({ username });
 
+            const user = await User.findById(context.user._id)
+
+            if(user.friends.includes(friend._id)){
+                throw new Error('Already friends')
+            }
             if (!friend) {
                 throw new Error('User not found');
             }
 
-            const updatedUser = await User.findByIdAndUpdate(
-                { _id: context.user._id },
-                { $push: { friends: friend._id } },
-                { new: true }
-            ).populate('friends');
+           user.friends.push(friend._id)
+           friend.friends.push(context.user._id)
+
+           await user.save()
+           await friend.save()
+
+            const updatedUser = await User.findById(context.user._id).populate('friends')
 
             return updatedUser;
         },
@@ -133,9 +146,9 @@ const resolvers = {
             }
             const event = await Event.findById(eventId)
 
-            event.competitors.push(context.user._id)
+            event.friends.push(context.user._id)
             await event.save()
-            const updatedEvent = await Event.findById(eventId).populate('competitors')
+            const updatedEvent = await Event.findById(eventId).populate('friends')
             return updatedEvent
         },
         deleteEvent: async (parent, { eventId }, context) => {
@@ -157,6 +170,23 @@ const resolvers = {
 
             return event;
         },
+        removeFriend: async(parent, {username}, context) => {
+            if(!context.user){
+                throw new Error("You need to be logged in to remove a friend")
+            }
+            const friend = await User.findOne({username})
+
+            const currentUser = await User.findById(context.user._id)
+
+            currentUser.friends.pull(friend)
+            friend.friends.pull(currentUser)
+
+            await currentUser.save()
+            await friend.save()
+
+            const updatedUser = await User.findById(context.user._id).populate('friends')
+            return updatedUser
+        }
 
 
     }
