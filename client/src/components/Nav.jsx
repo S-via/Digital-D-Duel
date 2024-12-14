@@ -33,7 +33,6 @@ function Nav() {
         p={3}
 
       >
-        {/* use for add friend button */}
         <HStack spacing={4}>
           {Auth.loggedIn() ? (
             <>
@@ -44,9 +43,6 @@ function Nav() {
             <Link to="/login"><Button>Login</Button></Link>
           )}
           <Link to='/'><Button>Home</Button></Link>
-        </HStack>
-        <HStack spacing={6} ml={2}>
-          <Link to="/profile"><Button>My Profile</Button></Link>
         </HStack>
         <Spacer />
         <InputGroup size="md" width="300px" mr={4}>
@@ -65,7 +61,7 @@ function Nav() {
         </InputGroup>
         <HStack spacing={4} mr={2}>
         <HStack spacing={4} mr={2}>
-          {Auth.loggedIn() ? ((({/*  */})
+          {(Auth.loggedIn() && window.location('/profile')) ? ( ({/* if user displayed is followed already */})?(<Button onClick={{/*remove friend function*/}}>Remove Friend</Button>):(
             <Button onClick={{/*add friend function*/}}>Add Friend</Button>)
           ) : (
             <></>
