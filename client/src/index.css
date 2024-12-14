@@ -70,10 +70,26 @@ button:focus-visible {
 
 /* aboutus */
 .about-us{
+  margin:65px;
   
 }
+/* joinEvents */
+.css-0 {
+  margin:65px;
+
+}
+.join-events{
+  color:antiquewhite
+}
+
+.search-bar
+{margin:65px;}
 
 /* EventPage.jsx */
+.text{
+  color:antiquewhite
+
+}
 .card-header{
   font-family: "Merriweather", serif;
   font-weight: 900;
@@ -121,15 +137,59 @@ button:focus-visible {
   position: relative; /*  must have or disables create button */
   z-index: 2; /* must have or disables cerate button */
 }
-/* Modal Header.jsx */
+/* Modal  */
+.css-qlig70{
+  border-color: blue;
+
+}
+h1{
+  font-family: "Merriweather", serif;
+}
+form{
+  font-family: "Merriweather", serif;
+
+
+}
+.home-team{
+  font-weight: 800;
+  font-size: smaller;
+}
+.away-team{
+  font-weight: 800;
+  font-size: smaller;
+  font-style: italic;
+
+}
+.vs{
+
+  font-weight: lighter;}
+.modal-content{
+
+}
 .modal-header{
+  transition:transform 0.2 ease;
+
+}
+.modal-header:hover{
+ transform:scale(1.05);
+
+}
+.modal-body{
+
+}
+.createevent{
+  
 
 }
 
 
+
+
+
+
 @media (prefers-color-scheme: light) {
   :root {
-    color: hsl(238, 78%, 9%);
+    color: white;
     background-color:hsl(238, 78%, 9%);
    
   }

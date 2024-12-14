@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input, Select, Textarea, Button } from "@chakra-ui/react";
+import { Input, Textarea, Button,useToast} from "@chakra-ui/react";
 import { CREATE_EVENT } from "../utils/mutations";
 import { useMutation, useQuery } from "@apollo/client";
 import Auth from "../utils/auth";
 import { useState } from "react";
 import { ME } from "../utils/queries";
+import{useNavigate} from 'react-router-dom'; // to redirect to single page event 
+
 
 const CreateEvent = ({ selected_event }) => {
   const [formData, setFormData] = useState({
@@ -17,12 +19,15 @@ const CreateEvent = ({ selected_event }) => {
 
 
   const {loading, error, data} = useQuery(ME)
+  const toast = useToast(); // toast function
+  const navigate = useNavigate(); // navigate function
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
-  const friends = data?.me?.friends || [];
+  /* const friends = data?.me?.friends || []; */
 
   const [createEvent] = useMutation(CREATE_EVENT);
 
@@ -52,15 +57,31 @@ const CreateEvent = ({ selected_event }) => {
             },
         });
         console.log("Event created:", data);
+
+        // toast //
+        toast ({
+          title:"Event Created",
+          description:"Your Event Has Been Created :) !",
+          status:"success",
+          duration:2000,
+          isClosable:true
+        });
+        // navigate to singlepage.jsx ///
+        navigate(`/event/:${selected_event.eventId}`);
+        
     } catch (err) {
         console.error("Error creating event:", err);
     }
 };
 
   return (
-    <div>
+    <>
+    
       <h1>
-        {selected_event.home_team} vs {selected_event.away_team}
+       <ul> <span className="home-team">
+       {selected_event.home_team}</span></ul>
+        <span className="vs">vs</span>
+        <ul><span className="away-team">{selected_event.away_team}</span></ul>
       </h1>
       <form onSubmit={handleCreateEvent}>
         <FormControl>
@@ -78,28 +99,16 @@ const CreateEvent = ({ selected_event }) => {
             onChange={handleInputChange}
             value={formData.description}
           />
-          <FormLabel>Invite friends</FormLabel>
-          <Select
-            placeholder="Select Friends"
-            name="friends"
-            value={formData.friends}
-            onChange={handleInputChange}
-            multiple
-          >
-            {friends.map((friend) => (
-              <option key={friend._id}>
-                {friend.username}
-              </option>
-            ))}
-          </Select>
+        
         </FormControl>
-        <div className="flex items-center">
-          <Button type="submit" className="mt-4 flex mx-auto align-middle">
+        
+          <Button type="submit">
             Create Event
           </Button>
-        </div>
+        
       </form>
-    </div>
+    
+    </>
   );
 };
 
