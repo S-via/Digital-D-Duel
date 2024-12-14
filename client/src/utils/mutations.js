@@ -88,6 +88,15 @@ mutation RemoveFriend($username: String!){
         _id
         username
     }
+`
+
+export const UPDATE_PASSWORD = gql `
+mutation UpdatePassword($password: String!) {
+  updatePassword(password: $password) {
+    _id
+    username
+    email
+  }
 }
 `
 

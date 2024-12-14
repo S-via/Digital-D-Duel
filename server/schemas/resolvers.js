@@ -185,7 +185,35 @@ const resolvers = {
 
             const updatedUser = await User.findById(context.user._id).populate('friends')
             return updatedUser
+        },
+        updatePassword: async (parent, {password}, context) => {
+            if (!context.user){
+                throw new Error('You need to be logged in to update password');
+            }
+
+           try{
+                const currentUser = await User.findById(context.user._id)
+                // let newPassword = currentUser.updatePassword(password)
+
+                // const user = await User.findByIdAndUpdate(
+                //     context.user._id, {
+                //     $set:{password}
+                //     },
+                //     {new:true}
+                // ) 
+                currentUser.password = password;
+                currentUser.save()
+                if(!currentUser){
+                    throw new Error('Could not update user password')
+                }
+                return currentUser;
+
+            } catch(error) { 
+                throw new Error ('Could not update password.')
+
+            }
         }
+
 
 
     }
