@@ -1,9 +1,20 @@
 import  { useState } from 'react';
-import { Flex, Box, HStack, Button, Spacer, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { Flex, Box, HStack, Button, Spacer, Input, InputGroup, InputRightElement, useQuery } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { SearchIcon } from '@chakra-ui/icons';
 import Auth from '../utils/auth';
+import { ME } from '../utils/queries'
+import profilePage from '../pages/ProfilePage'
 import { BREAK } from 'graphql';
+function isFollowed(){
+  const friends = useQuery(ME).friends;
+  const username = profilePage.profile.username;
+  if(friends.includes(username)){
+    return true;
+  } else {
+    return false;
+  }
+};
 function Nav() {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
@@ -61,7 +72,7 @@ function Nav() {
         </InputGroup>
         <HStack spacing={4} mr={2}>
         <HStack spacing={4} mr={2}>
-          {(Auth.loggedIn() && window.location('/profile')) ? ( ({/* if user displayed is followed already */})?(<Button onClick={{/*remove friend function*/}}>Remove Friend</Button>):(
+          {(Auth.loggedIn() && (window.location.pathname === '/profile')) ? ( (isFollowed())?(<Button onClick={{/*remove friend function*/}}>Remove Friend</Button>):(
             <Button onClick={{/*add friend function*/}}>Add Friend</Button>)
           ) : (
             <></>
