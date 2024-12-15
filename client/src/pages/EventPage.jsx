@@ -49,7 +49,7 @@ const EventPage = () => {
         <Image src={image} boxSize={["100%","300px"]} objectFit="cover"></Image>
         </Flex>
         <Box>
-        <Text className="text"fontSize="2x1" textAlign="justify"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
+        <Text className="text"fontSize="2x1" textAlign="justify"> Create an event with your friends based on these matches</Text>
         </Box>
     </Box>
    
