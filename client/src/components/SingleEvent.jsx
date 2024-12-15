@@ -3,7 +3,8 @@ import { GET_SINGLE_EVENT } from '../utils/queries'
 import { CREATE_COMMENT } from '../utils/mutations'
 import { useQuery, useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
-import { Box, Heading, Text, VStack, HStack, Textarea, Button } from '@chakra-ui/react';
+import { Box, Heading, Text, Textarea, Button } from '@chakra-ui/react';
+// test push
 
 
 
