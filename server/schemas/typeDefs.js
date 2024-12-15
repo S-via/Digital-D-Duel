@@ -61,6 +61,7 @@ const typeDefs = `
         deleteEvent(_id: ID!): Event
         joinEvent(eventId: ID!): Event
         removeFriend(username: String!): User
+        updatePassword(password: String!): User
     }
 
     

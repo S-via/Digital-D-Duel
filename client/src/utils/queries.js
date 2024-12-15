@@ -18,7 +18,7 @@ query getAllEvents{
         }
     }
 }
-`;
+`
 
 export const GET_SINGLE_EVENT = gql`
 query getEvent($eventId: ID!){
@@ -90,5 +90,4 @@ query getUsers($searchTerm: String!){
             _id
     }
 
-        
     }`
