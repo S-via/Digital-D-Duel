@@ -81,12 +81,18 @@ const FollowedEventsPage = () => {
   }
 
   return (
-    <Box p="6">
-      <Heading size="lg" mb="4">
+    <Box 
+    maxHeight="600px" 
+    overflowY="auto"
+    p={2}
+    border="1px solid"
+    borderColor="#10e875d0"
+    borderRadius="md">
+      <Heading className='heading' size="lg" mb="4">
         {userParam ? `${profile.username}'s` : 'My'} Profile
       </Heading>
 
-      <Text mb="4">Number of Friends: {profile.friends?.length || 0}</Text>
+      <Text className='text' mb="4">Number of Friends: {profile.friends?.length || 0}</Text>
 
       {userParam && !isFriend && (
         <Button colorScheme="green" onClick={handleAddFriend}>
@@ -101,7 +107,7 @@ const FollowedEventsPage = () => {
 
       {/* Hosted Events */}
       <Box mt="6">
-        <Heading size="md" mb="4">
+        <Heading className='heading' size="lg" mb="4">
           Hosted Events
         </Heading>
         {profile.hostedEvents?.length > 0 ? (
@@ -114,7 +120,15 @@ const FollowedEventsPage = () => {
                   </Heading>
                 </CardHeader>
                 <CardBody>
-                  <Text>{event.description}</Text>
+                  <Box
+                   maxHeight="150px"
+                   overflowY="auto"
+                   p={2}
+                   border="1px solid"
+                   borderColor=" #10e875d0"
+                   borderRadius="md"
+                   mb={4}>
+                  <Text>{event.description}</Text></Box>
                 </CardBody>
               </Card>
             ))}
@@ -126,8 +140,15 @@ const FollowedEventsPage = () => {
 
       {/* Joined Events */}
       {!userParam && (
-        <Box mt="6">
-          <Heading size="md" mb="4">
+        <Box mt="6"
+          maxHeight="150px"
+          overflowY="auto"
+          p={2}
+          border="1px solid"
+          borderColor=" #10e875d0"
+          borderRadius="md"
+          mb={4}>
+          <Heading className="heading" size="md" mb="4">
             Joined Events
           </Heading>
           {profile.joinedEvents?.length > 0 ? (
@@ -146,7 +167,7 @@ const FollowedEventsPage = () => {
               ))}
             </SimpleGrid>
           ) : (
-            <Text>No joined events available.</Text>
+            <Text className='text'>No joined events available.</Text>
           )}
         </Box>
       )}
