@@ -59,13 +59,13 @@ const SingleEvent = () => {
                     borderColor="hsla(222, 89.20%, 7.30%, 0.82)"
                     borderRadius="md"
                     mb={4}>
-                    <Text className='text' fontSize="md">{event.description}</Text></Box>
+                    <Text className="text" fontSize="md">{event.description}</Text></Box>
                 {event.comments.map((comment) => (
-                    <Box className="Box"key={comment._id}>
-                        <Text>By: {comment.user.username}</Text>
-                        <Text>{comment.text}</Text>
+                    <div className="Box"key={comment._id}>
+                        <Text className="text">By: {comment.user.username}</Text>
+                        <Text className="text">{comment.text}</Text>
 
-                    </Box>
+                    </div>
                 ))}
 
                 <Box>
