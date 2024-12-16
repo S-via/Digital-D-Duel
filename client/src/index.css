@@ -57,7 +57,11 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 
 }
+.par{
+  color:antiquewhite
+  
 
+}
 /* nav */
 .css-p8ahvc{background-color: white;}
 /* login & signup */

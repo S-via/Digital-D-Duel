@@ -21,12 +21,12 @@ const SingleEvent = () => {
 
 
 
-    if (loading) return <p> Loading event...</p>
+    if (loading) return <p className='par'> Loading event...</p>
 
-    if (error) return <p>Error fetching this event: {error.message}</p>
+    if (error) return <Box className='par'>Error fetching this event: {error.message}</Box>
 
     if (!data || !data.getEvent || data.getEvent.length === 0) {
-        return <p> Cannot fetch event</p>
+        return <p className='par'> Cannot fetch event</p>
     }
 
     console.log(event)
@@ -50,7 +50,8 @@ const SingleEvent = () => {
     return (
         <>
             <Box>
-                <Heading size="lg" mb={4}>{event.home_team} vs {event.away_team}</Heading>
+                
+                <Heading className='heading' size="lg" mb={4}>{event.home_team} vs {event.away_team}</Heading>
                 <Box maxHeight="150px"
                     overflowY="auto"
                     p={2}
@@ -58,9 +59,9 @@ const SingleEvent = () => {
                     borderColor="hsla(222, 89.20%, 7.30%, 0.82)"
                     borderRadius="md"
                     mb={4}>
-                    <Text fontSize="md">{event.description}</Text></Box>
+                    <Text className='text' fontSize="md">{event.description}</Text></Box>
                 {event.comments.map((comment) => (
-                    <Box key={comment._id}>
+                    <Box className="Box"key={comment._id}>
                         <Text>By: {comment.user.username}</Text>
                         <Text>{comment.text}</Text>
 
@@ -69,6 +70,8 @@ const SingleEvent = () => {
 
                 <Box>
                     <Textarea
+                    backgroundColor="white"
+                    color="black"
                     mb={3}
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}

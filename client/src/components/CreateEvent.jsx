@@ -40,7 +40,7 @@ const CreateEvent = ({ selected_event }) => {
         console.error("No token found");
         return false;
     }
-    if(loading) return <p>Loading ...</p>
+    if(loading) return <p className="p">Loading ...</p>
     if(error) return <h1>{error.message}</h1>
 
     try {
@@ -67,7 +67,9 @@ const CreateEvent = ({ selected_event }) => {
           isClosable:true
         });
         // navigate to singlepage.jsx ///
-        navigate(`/event/:${selected_event.eventId}`);
+        navigate(`/event/${data.createEvent._id}`);
+
+
         
     } catch (err) {
         console.error("Error creating event:", err);
