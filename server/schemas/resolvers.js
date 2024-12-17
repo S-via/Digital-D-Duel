@@ -16,6 +16,7 @@ const resolvers = {
         getUser: async (parent, { username }) => {
             const user = await User.findOne(username ? {username}: {})
                 .populate('hostedEvents')
+                .populate('joinedEvents')
                 .populate('friends');
             return user;
         },
