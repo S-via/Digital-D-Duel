@@ -50,7 +50,7 @@ const SingleEvent = () => {
     return (
         <>
             <Box>
-                
+
                 <Heading className='heading' size="lg" mb={4}>{event.home_team} vs {event.away_team}</Heading>
                 <Box maxHeight="150px"
                     overflowY="auto"
@@ -61,18 +61,28 @@ const SingleEvent = () => {
                     mb={4}>
                     <Text className="text" fontSize="md">{event.description}</Text></Box>
                 {event.comments.map((comment) => (
-                    <div className="Box"key={comment._id}>
+                    <div className="Box" key={comment._id}>
                         <Text className="text">By: {comment.user.username}</Text>
-                        <Text className="text">{comment.text}</Text>
+                        <Box maxHeight="150px"
+                            overflowY="auto"
+                            p={2}
+                            border="1px solid"
+                            backgroundColor={'grey'}
+                            color={'white'}
+                            borderColor="#10e875d0"
+
+
+                            borderRadius="md"
+                            mb={4} className="text">{comment.text}</Box>
 
                     </div>
                 ))}
 
                 <Box>
                     <Textarea
-                    backgroundColor="white"
-                    color="black"
-                    mb={3}
+                        backgroundColor="white"
+                        color="black"
+                        mb={3}
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                         placeholder='Add a comment'
