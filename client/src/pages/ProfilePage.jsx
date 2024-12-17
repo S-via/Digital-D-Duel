@@ -8,10 +8,21 @@ import {
   CardHeader,
   Text,
   Heading,
+  // Modal,
+  // ModalOverlay,
+  // ModalContent,
+  // ModalHeader,
+  // ModalFooter,
+  // ModalBody,
+  // ModalCloseButton,
+  // FormControl,
+  // FormLabel,
+  // Input,
+  // useDisclosure,
 } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_USER, ME } from '../utils/queries';
-import { ADD_FRIEND, REMOVE_FRIEND } from '../utils/mutations';
+import { ADD_FRIEND, REMOVE_FRIEND, } from '../utils/mutations'; //Add UPDATE_PASSWORD
 import Auth from '../utils/auth';
 import { useParams, Navigate } from 'react-router-dom';
 
@@ -37,6 +48,8 @@ const FollowedEventsPage = () => {
       setIsFriend(false);
     },
   });
+  // const [newPassword, setNewPassword] = useState('');
+  // const [updatePassword] = useMutation(UPDATE_PASSWORD);
 
   const handleAddFriend = async () => {
     await addFriend({
@@ -53,6 +66,19 @@ const FollowedEventsPage = () => {
       },
     });
   };
+
+  // const handleUpdatePassword = async () => {
+  //   try {
+  //     await updatePassword({
+  //       variables: { password },
+  //     });
+  //     onClose();
+  //     setNewPassword('');
+  //   } catch (err) {
+  //     console.error('Error updating password:', err);
+  //   }
+  // };
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (
@@ -96,6 +122,12 @@ const FollowedEventsPage = () => {
       </Heading>
 
       <Text className='text' mb="4">Number of Friends: {profile.friends?.length || 0}</Text>
+
+      {/* {userParam && (
+        <Button colorSchema="blue" onClick={onOpen} mb="4">
+          Update Password
+        </Button>
+      )} */}
 
       {userParam && !isFriend && (
         <Button colorScheme="green" onClick={handleAddFriend}>
@@ -174,6 +206,31 @@ const FollowedEventsPage = () => {
           )}
         </Box>
       )}
+              {/* <Modal isOpen={isOpen} onClose={onClose}>
+    <ModalOverlay />
+    <ModalContent>
+      <ModalHeader>Update Password</ModalHeader>
+      <ModalCloseButton />
+      <ModalBody>
+        <FormControl>
+          <FormLabel>New Password</FormLabel>
+          <Input 
+            type="password" 
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+        </FormControl>
+      </ModalBody>
+
+      <ModalFooter>
+        <Button colorScheme="blue" mr={3} onClick={handleUpdatePassword}>
+          Update
+        </Button>
+        <Button variant="ghost" onClick={onClose}>Cancel</Button>
+      </ModalFooter>
+    </ModalContent>
+  </Modal> */}
+
     </Box>
   );
 };
