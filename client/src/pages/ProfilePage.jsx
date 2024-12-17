@@ -82,9 +82,12 @@ const FollowedEventsPage = () => {
 
   return (
     <Box 
+    mt={12}
     maxHeight="600px" 
     overflowY="auto"
     p={2}
+    backgroundColor={'grey'}
+    color={'white'}
     border="1px solid"
     borderColor="#10e875d0"
     borderRadius="md">
